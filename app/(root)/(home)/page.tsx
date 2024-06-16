@@ -1,12 +1,11 @@
 import Navbar from '@/components/Navbar'
-import PhoneAuth from '@/components/PhoneAuth'
-import Login from '@/components/login'
+import React from 'react'
+import  HeroCarousel  from '@/components/Carousel'
 
 const page = () => {
   return (
     <div>
-      <Navbar/>
-      <Login/>
+        <HeroCarousel/>
     </div>
   )
 }

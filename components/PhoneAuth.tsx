@@ -2,14 +2,13 @@
 import PhoneInput from "react-phone-input-2";
 import { useState } from "react";
 import "react-phone-input-2/lib/style.css";
-
-import OtpInput from "react-otp-input";
+import OTPInput from "react-otp-input";
 import {
   RecaptchaVerifier,
   signInWithPhoneNumber,
   ConfirmationResult,
 } from "firebase/auth";
-import { auth } from "./firebase.config";
+import { auth } from "./FirebaseConfig";
 
 // Extend the Window interface to include the confirmation property.
 declare global {
@@ -42,7 +41,6 @@ const PhoneAuth: React.FC = () => {
       window.confirmation = confirmationResult;
       setShowOTP(true);
 
-      console.log("Confirmation Result:", confirmationResult);
     } catch (error) {
       console.error("Error sending OTP:", error);
     } finally {
@@ -62,7 +60,6 @@ const PhoneAuth: React.FC = () => {
       // Confirm the OTP using the confirmationResult stored in window
       const result = await window.confirmation.confirm(otp);
       setUser(result.user);
-      console.log("OTP verified successfully. User:", result.user);
     } catch (error) {
       console.error("Error verifying OTP:", error);
     } finally {
@@ -71,51 +68,73 @@ const PhoneAuth: React.FC = () => {
   };
 
   return (
+    <div className=" my-10 ">
+    {!showOTP ? (
+      <form>
+      <div>
+      <input type="text" name="username" id="name" placeholder="Enter your name" required
+        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 my-5"
+      />
+    </div>
     <div>
-      <label htmlFor="" className="font-bold text-xl text-white text-center">
-        Verify your phone number
-      </label>
+      <input type="email" name="email" id="email" placeholder="Enter your email" required
+        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 my-5"
+      />
+    </div>
+    <div>
+      <input type="password" name="password" id="password" placeholder="Enter password" required
+        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 my-5" 
+      />
+    </div>
+     
       <PhoneInput
         country={"in"}
         value={ph}
         onChange={(value: string) => {
           setPh("+" + value);
         }}
+        
+        
       />
       <button
         onClick={sendOtp}
-        className="bg-emerald-600 w-full flex gap-1 items-center justify-center py-2.5 text-white rounded"
+        className="bg-black  w-full flex gap-1 items-center justify-center py-2.5 text-white rounded my-5"
         disabled={loading}
       >
-        <span>Send code via SMS</span>
+        <span>Sign in</span>
       </button>
       <br />
       <div className="my-10" id="recaptcha"></div>
       <br />
-      {showOTP && (
-        <>
+      </form>
+    ):(
+        <div>
           <label
             htmlFor="otp"
-            className="font-bold text-xl text-white text-center"
+            className="font-bold text-xl text-black text-center my-5"
           >
             Enter your OTP
           </label>
-          <OtpInput
-            value={otp}
-            onChange={setOtp}
-            numInputs={6}
-            renderSeparator={<span>-</span>}
-            renderInput={(props) => <input {...props} />}
-          />
-          <button
-            onClick={onOTPVerify}
-            className="bg-emerald-600 w-full flex gap-1 items-center justify-center py-2.5 text-white rounded"
-            disabled={loading}
-          >
-            <span>Verify OTP</span>
-          </button>
-        </>
-      )}
+          <OTPInput
+        value={otp}
+        onChange={setOtp}
+        numInputs={6}
+        renderInput={(props) => <input {...props} />}
+        inputStyle={'border border-gray-300 rounded-md text-center mx-1 w-10 h-12 text-lg'}
+        skipDefaultStyles={true}
+        shouldAutoFocus
+        />
+      <button
+         onClick={onOTPVerify}
+         className={`bg-black w-full flex gap-1 items-center justify-center py-2.5 text-white rounded my-5 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+        disabled={loading}
+        aria-disabled={loading}
+      >
+        {loading ? 'Verifying...' : 'Verify OTP'}
+      </button>
+      </div>
+    )
+  }
     </div>
   );
 };

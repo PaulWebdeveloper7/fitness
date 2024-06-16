@@ -1,7 +1,18 @@
-export default function Navbar() {
+import React from 'react'
+
+const Navbar = () => {
   return (
-    <h1 className=" font-bold underline text-5xl text-red-700 h-screen w-full">
-      Hello world!
-    </h1>
+    <div>
+        <div className=''>Logo</div>
+        <div>
+        <li>Home</li>
+        <li>About</li>
+        <li>Contact</li>
+        <li>Join Us</li>
+        </div>
+        <div></div>
+    </div>
   )
 }
+
+export default Navbar
