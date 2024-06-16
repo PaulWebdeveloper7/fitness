@@ -1,10 +1,7 @@
-'use client'
-const Navbar = () => {
+export default function Navbar() {
   return (
-    <div>
-       <h1 className=" text-center text-8xl text-white bg-black ">Navbar</h1> 
-    </div>
+    <h1 className=" font-bold underline text-5xl text-red-700 h-screen w-full">
+      Hello world!
+    </h1>
   )
 }
-
-export default Navbar

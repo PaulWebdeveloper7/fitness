@@ -1,10 +1,12 @@
+import Navbar from '@/components/Navbar'
 import PhoneAuth from '@/components/PhoneAuth'
+import Login from '@/components/login'
 
 const page = () => {
   return (
     <div>
-      <h1>Next js authentication </h1>
-      <PhoneAuth/>
+      <Navbar/>
+      <Login/>
     </div>
   )
 }
