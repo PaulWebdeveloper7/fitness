@@ -1,5 +1,4 @@
 import PhoneAuth from '@/components/PhoneAuth'
-import React from 'react'
 
 const page = () => {
   return (

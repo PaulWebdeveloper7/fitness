@@ -1,8 +1,6 @@
-// components/Hero.tsx
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 const slides = [
   {
@@ -42,9 +40,9 @@ const HeroCarousel = () => {
   useEffect(() => {
     const slideInterval = setInterval(() => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
-    }, 9000); // Change slide every 3 seconds
+    }, 9000); 
 
-    return () => clearInterval(slideInterval); // Cleanup interval on component unmount
+    return () => clearInterval(slideInterval); 
   }, []);
   const prevSlide = () => {
     setCurrentSlide(
