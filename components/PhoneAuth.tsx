@@ -18,7 +18,7 @@ declare global {
 }
 
 // Initialize the window.confirmation as null
-window.confirmation = null;
+// window.confirmation = null;
 
 const PhoneAuth: React.FC = () => {
   const [otp, setOtp] = useState<string>("");

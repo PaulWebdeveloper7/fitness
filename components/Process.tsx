@@ -15,34 +15,9 @@ interface FormData {
   trainingLevel: string;
   activities: string[];
 }
-interface Data {
-  Option1: string;
-  Option2: string;
-  measure1: string;
-  measure2: string;
-}
-const Process = () => {
-  const DataForMeasure = [
-    {
-      Option1:'Feet' ,
-      Option2 :'Inches',
-      measure1:'cm',
-      measure2:'feet'
-    },
-    {
-      Option1:'Pound' ,
-      Option2 :'Kilogram',
-      measure1:'pound',
-      measure2:'kg'
-    },
-    {
-      Option1:'Pound' ,
-      Option2 :'Kilogram',
-      measure1:'pound',
-      measure2:'kg'
-    }
 
-  ]
+const Process = () => {
+
   const [step, setStep] = useState(0);
   const [Height, setHeight] = useState(false);
   const [alignment, setAlignment] = React.useState('web');
