@@ -6,7 +6,7 @@ const page = () => {
   return (
     <div className='flex items-center justify-center flex-col h-screen w-full gap-6'>
         <h1 className=' text-6xl font-extrabold text-center my-6'>Sign In</h1>
-        <form action="" method="get">
+        <form>
       <div>
       <input type="number" name="username" id="name" placeholder="Enter Phone Number" required
         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 my-5"
