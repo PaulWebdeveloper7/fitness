@@ -64,11 +64,7 @@ const HeroCarousel = () => {
             className="w-screen flex-shrink-0 flex justify-center items-center "
           >
             <div className="relative w-screen flex justify-center bg-black h-screen items-center">
-              <Image
-                src={slide.imageUrl}
-                alt={slide.text}
-                objectFit="cover"
-              />
+            <Image src={slide.imageUrl} alt={slide.text} layout="fill" objectFit="cover" />
               <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white flex-col gap-4 ">
                 <h2 className="text-5xl font-extrabold text-center">
                   {slide.title}

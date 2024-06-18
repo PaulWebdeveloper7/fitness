@@ -4,12 +4,13 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAgEKor5QoYFwin8U4I2glnn3xseuR-7mg",
-    authDomain: "fitness-6ed77.firebaseapp.com",
-    projectId: "fitness-6ed77",
-    storageBucket: "fitness-6ed77.appspot.com",
-    messagingSenderId:"G-BEQS6KCKGF",
-    appId: "1:298933235248:web:e53f634314572a3f5e87f5"
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env. NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket:process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId:process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+    measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
   };
 
 const app = initializeApp(firebaseConfig);
