@@ -1,10 +1,10 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import * as React from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-
+import CircularProgress from '@mui/material/CircularProgress';
+import { FormControlLabel, Checkbox, RadioGroup, Radio, Button } from '@mui/material';
 
 interface FormData {
   gender: string;
@@ -17,17 +17,10 @@ interface FormData {
 }
 
 const Process = () => {
-
   const [step, setStep] = useState(0);
-  const [Height, setHeight] = useState(false);
-  const [alignment, setAlignment] = React.useState('web');
+  const [useFeet, setUseFeet] = useState(true);
+  const [alignment, setAlignment] = useState('feet');
 
-  const handleChange = (
-    event: React.MouseEvent<HTMLElement>,
-    newAlignment: string,
-  ) => {
-    setAlignment(newAlignment);
-  };
   const [formData, setFormData] = useState<FormData>({
     gender: "",
     goal: "",
@@ -78,332 +71,216 @@ const Process = () => {
   function renderGenderStep() {
     return (
       <div className="flex flex-col justify-center items-center">
-        <label className="mb-2 text-3xl font-extrabold">
+        <label className="mb-4 text-2xl font-bold">
           Choose Your Gender
         </label>
-        <label htmlFor="gender">
-          <div className=" flex flex-row gap-10 justify-center items-center">
-            <div>
+        <RadioGroup row name="gender" value={formData.gender} onChange={handleInputChange}>
+          {["Female", "Male", "Other"].map((gender, index) => (
+            <div key={gender} className="flex flex-col items-center mx-4">
               <Image
-                src={"/avatar.avif"}
+                src={`/avatar${index + 1}.avif`}
                 width={100}
                 height={100}
-                alt="Female"
-                className="object-fit"
+                alt={gender}
+                className="object-contain"
               />
-              <div className=" flex gap-3">
-                <input type="radio" name="gender" id="gender" />
-                <h2>Female</h2>
-              </div>
-            </div>
-            <div>
-              <Image
-                src={"/avatar2.avif"}
-                width={100}
-                height={100}
-                alt="Male"
+              <FormControlLabel
+                value={gender}
+                control={<Radio />}
+                label={gender}
               />
-              <div className=" flex gap-3">
-                <input type="radio" name="gender" id="gender" />
-                <h2>Male</h2>
-              </div>
             </div>
-            <div>
-              <Image
-                src={"/avatar3.avif"}
-                width={100}
-                height={100}
-                alt="Other "
-              />
-              <div className=" flex gap-3">
-                <input type="radio" name="gender" id="gender" />
-                <h2>Other</h2>
-              </div>
-            </div>
-          </div>
-        </label>
+          ))}
+        </RadioGroup>
       </div>
     );
   }
 
   function renderGoalStep() {
+    const goals = [
+      "Lose weight",
+      "Keep Fit",
+      "Get Stronger",
+      "Gain Muscle mass"
+    ];
     return (
-      <div className="flex flex-col gap-4">
-        <label className="mb-2 font-extrabold text-5xl">Enter Your Goal</label>
-        <label htmlFor="weight" className=" flex gap-2">
-          <input type="checkbox" name="weight" id="weight" />
-          <p>Lose weight</p>
-        </label>
-        <label htmlFor="fit" className=" flex gap-2">
-          <input type="checkbox" name="fit" id="fit" />
-          <p>Keep Fit</p>
-        </label>
-        <label htmlFor="Stronger" className="flex gap-2">
-          <input type="checkbox" name="Stronger" id="Stronger" />
-          <p>Get Stronger</p>
-        </label>
-        <label htmlFor="mass" className=" flex gap-2">
-          <input type="checkbox" name="mass" id="mass" />
-          <p>Gain Muscle mass</p>
-        </label>
+      <div className="flex flex-col items-start">
+        <label className="mb-4 text-2xl font-bold">Enter Your Goal</label>
+        {goals.map((goal) => (
+          <FormControlLabel
+            key={goal}
+            control={<Checkbox checked={formData.goal === goal} onChange={handleInputChange} name="goal" value={goal} />}
+            label={goal}
+            className="mb-2"
+          />
+        ))}
       </div>
     );
   }
 
   function renderHeightStep() {
     return (
-
-       <div className="flex flex-col justify-center items-center">
-       
-        <label className="mb-2 text-3xl font-extrabold">Enter your Height</label>
+      <div className="flex flex-col justify-center items-center">
+        <label className="mb-4 text-2xl font-bold">Enter Your Height</label>
         <ToggleButtonGroup
-      color="secondary"
-      value={alignment}
-      exclusive
-      onChange={handleChange}
-      aria-label="Platform"
-      >
-      <ToggleButton value="feet" onClick={()=>{setHeight(true)}}>Feet</ToggleButton>
-      <ToggleButton value="cm" onClick={()=>{setHeight(false)}}>Inches</ToggleButton>
-    </ToggleButtonGroup>
-    { Height ?(
-      <label htmlFor="" className="flex gap-2 justify-center items-center p-3">  
-      <input
-          type="number"
-          name="height"
-          value={formData.height}
-          onChange={handleInputChange}
-          className="border p-2 rounded"
-          placeholder="Enter your height in feet"
-          
-          />
-        <h3>Feet</h3>
-        </label>
-      ):(
-        <label htmlFor="" className="flex gap-2 justify-center items-center p-3">
+          value={alignment}
+          exclusive
+          onChange={(_, value) => {
+            if (value !== null) {
+              setAlignment(value);
+              setUseFeet(value === 'feet');
+            }
+          }}
+          aria-label="Height Unit"
+        >
+          <ToggleButton value="feet">Feet</ToggleButton>
+          <ToggleButton value="cm">Cm</ToggleButton>
+        </ToggleButtonGroup>
+        <div className="mt-4 flex items-center gap-2">
           <input
-          type="number"
-          name="height"
-          value={formData.height}
-          onChange={handleInputChange}
-          className="border p-2 rounded"
-          placeholder="Enter your height in cm"/>
-          <h3>Inches</h3>
-          </label>
-        )}
-      
-      </div>  
-    )}
+            type="number"
+            name="height"
+            value={formData.height}
+            onChange={handleInputChange}
+            className="border p-2 rounded"
+            placeholder={`Enter your height in ${useFeet ? 'feet' : 'cm'}`}
+          />
+          <span>{useFeet ? 'Feet' : 'Cm'}</span>
+        </div>
+      </div>
+    );
+  }
 
   function renderWeightStep() {
     return (
       <div className="flex flex-col justify-center items-center">
-       
-        <label className="mb-2 text-3xl font-extrabold">Enter Your Weight</label>
+        <label className="mb-4 text-2xl font-bold">Enter Your Weight</label>
         <ToggleButtonGroup
-      color="secondary"
-      value={alignment}
-      exclusive
-      onChange={handleChange}
-      aria-label="Platform"
-      >
-      <ToggleButton value="feet" onClick={()=>{setHeight(true)}}>Pound</ToggleButton>
-      <ToggleButton value="cm" onClick={()=>{setHeight(false)}}>Kilogram</ToggleButton>
-    </ToggleButtonGroup>
-    { Height ?(
-      <label htmlFor="" className="flex gap-2 justify-center items-center p-3">  
-      <input
-          type="number"
-          name="height"
-          value={formData.height}
-          onChange={handleInputChange}
-          className="border p-2 rounded"
-          placeholder="Enter your height in feet"
-          
-          />
-        <h3>Pound</h3>
-        </label>
-      ):(
-        <label htmlFor="" className="flex gap-2 justify-center items-center p-3">
+          value={alignment}
+          exclusive
+          onChange={(_, value) => {
+            if (value !== null) {
+              setAlignment(value);
+              setUseFeet(value === 'feet');
+            }
+          }}
+          aria-label="Weight Unit"
+        >
+          <ToggleButton value="feet">Pounds</ToggleButton>
+          <ToggleButton value="cm">Kilograms</ToggleButton>
+        </ToggleButtonGroup>
+        <div className="mt-4 flex items-center gap-2">
           <input
-          type="number"
-          name="weight"
-          value={formData.weight}
-          onChange={handleInputChange}
-          className="border p-2 rounded"
-          placeholder="Enter your weight in kg"/>
-          <h3>kg</h3>
-          </label>
-        )}
-      
-      </div>  
+            type="number"
+            name="weight"
+            value={formData.weight}
+            onChange={handleInputChange}
+            className="border p-2 rounded"
+            placeholder={`Enter your weight in ${useFeet ? 'pounds' : 'kg'}`}
+          />
+          <span>{useFeet ? 'Pounds' : 'Kg'}</span>
+        </div>
+      </div>
     );
   }
 
   function renderGoalWeightStep() {
     return (
       <div className="flex flex-col justify-center items-center">
-       
-        <label className="mb-2 text-3xl font-extrabold">Enter Your Goal Weight</label>
+        <label className="mb-4 text-2xl font-bold">Enter Your Goal Weight</label>
         <ToggleButtonGroup
-      color="secondary"
-      value={alignment}
-      exclusive
-      onChange={handleChange}
-      aria-label="Platform"
-      >
-      <ToggleButton value="feet" onClick={()=>{setHeight(true)}}>Pound</ToggleButton>
-      <ToggleButton value="cm" onClick={()=>{setHeight(false)}}>Kilogram</ToggleButton>
-    </ToggleButtonGroup>
-    { Height ?(
-      <label htmlFor="" className="flex gap-2 justify-center items-center p-3">  
-      <input
-          type="number"
-          name="height"
-          value={formData.height}
-          onChange={handleInputChange}
-          className="border p-2 rounded"
-          placeholder="Enter your height in feet"
-          
-          />
-        <h3>Pound</h3>
-        </label>
-      ):(
-        <label htmlFor="" className="flex gap-2 justify-center items-center p-3">
+          value={alignment}
+          exclusive
+          onChange={(_, value) => {
+            if (value !== null) {
+              setAlignment(value);
+              setUseFeet(value === 'feet');
+            }
+          }}
+          aria-label="Goal Weight Unit"
+        >
+          <ToggleButton value="feet">Pounds</ToggleButton>
+          <ToggleButton value="cm">Kilograms</ToggleButton>
+        </ToggleButtonGroup>
+        <div className="mt-4 flex items-center gap-2">
           <input
-          type="number"
-          name="weight"
-          value={formData.goalWeight}
-          onChange={handleInputChange}
-          className="border p-2 rounded"
-          placeholder="Enter your weight in kg"/>
-          <h3>kg</h3>
-          </label>
-        )}
-      
-      </div>  
+            type="number"
+            name="goalWeight"
+            value={formData.goalWeight}
+            onChange={handleInputChange}
+            className="border p-2 rounded"
+            placeholder={`Enter your goal weight in ${useFeet ? 'pounds' : 'kg'}`}
+          />
+          <span>{useFeet ? 'Pounds' : 'Kg'}</span>
+        </div>
+      </div>
     );
   }
 
   function renderTrainingLevelStep() {
+    const levels = [
+      { level: "Beginner", description: "I want to start training" },
+      { level: "Irregular Training", description: "I train 1-2 times a week" },
+      { level: "Medium", description: "I train 3-5 times a week" },
+      { level: "Advanced", description: "I train more than 5 times a week" },
+    ];
     return (
-      <div className="flex flex-col gap-4">
-      <label className="mb-2 font-extrabold text-5xl">Enter Your Goal</label>
-      <label htmlFor="weight" className=" flex gap-2">
-        <input type="checkbox" name="weight" id="weight" />
-        <p>Beginner</p>
-        <p>I want to start training</p>
-
-      </label>
-      <label htmlFor="fit" className=" flex gap-2">
-        <input type="checkbox" name="fit" id="fit" />
-        <p>Irregular Training</p>
-        <p>I train 1-2 times a week</p>
-
-      </label>
-      <label htmlFor="Stronger" className="flex gap-2">
-        <input type="checkbox" name="Stronger" id="Stronger" />
-        <p>Medium</p>
-        <p>I train 3-5 times a week</p>
-
-      </label>
-      <label htmlFor="mass" className=" flex gap-2">
-        <input type="checkbox" name="mass" id="mass" />
-        <p>Advanced</p>
-        <p>I train more than 5 times a week</p>
-
-      </label>
-    </div>
+      <div className="flex flex-col items-start">
+        <label className="mb-4 text-2xl font-bold">Enter Your Training Level</label>
+        {levels.map(({ level, description }) => (
+          <FormControlLabel
+            key={level}
+            control={<Checkbox checked={formData.trainingLevel === level} onChange={handleInputChange} name="trainingLevel" value={level} />}
+            label={
+              <div>
+                <span className="font-semibold">{level}</span>
+                <p className="text-sm">{description}</p>
+              </div>
+            }
+            className="mb-2"
+          />
+        ))}
+      </div>
     );
   }
 
   function renderActivitiesStep() {
-    const activities = [
-      "Running",
-      "Cycling",
-      "Swimming",
-      "Weightlifting",
-      "Yoga",
-    ];
+    const activities = ["Running", "Cycling", "Swimming", "Weightlifting", "Yoga"];
     return (
-      <div className="flex flex-col justify-center items-center">
-      <label className="mb-2 text-3xl font-extrabold">
-        Choose Your Gender
-      </label>
-      <label htmlFor="gender">
-        <div className=" flex flex-row gap-10 justify-center items-center">
-          <div>
-            <Image
-              src={"/avatar.avif"}
-              width={100}
-              height={100}
-              alt="Female"
-              className="object-fit"
-            />
-            <div className=" flex gap-3">
-              <input type="radio" name="gender" id="gender" />
-              <h2>Female</h2>
-            </div>
-          </div>
-          <div>
-            <Image
-              src={"/avatar2.avif"}
-              width={100}
-              height={100}
-              alt="Male"
-            />
-            <div className=" flex gap-3">
-              <input type="radio" name="gender" id="gender" />
-              <h2>Male</h2>
-            </div>
-          </div>
-          <div>
-            <Image
-              src={"/avatar3.avif"}
-              width={100}
-              height={100}
-              alt="Other "
-            />
-            <div className=" flex gap-3">
-              <input type="radio" name="gender" id="gender" />
-              <h2>Other</h2>
-            </div>
-          </div>
-        </div>
-      </label>
-    </div>
+      <div className="flex flex-col items-start">
+        <label className="mb-4 text-2xl font-bold">Select Your Activities</label>
+        {activities.map((activity) => (
+          <FormControlLabel
+            key={activity}
+            control={
+              <Checkbox
+                checked={formData.activities.includes(activity)}
+                onChange={handleArrayChange}
+                name="activities"
+                value={activity}
+              />
+            }
+            label={activity}
+            className="mb-2"
+          />
+        ))}
+      </div>
     );
   }
 
-  function renderProgressCircle() {
+  function renderProgressBar() {
     const completionPercentage = ((step + 1) / steps.length) * 100;
 
     return (
-      <div className="relative flex items-center justify-center w-16 h-16">
-        <svg className="absolute w-full h-full">
-          <circle
-            className="text-gray-300"
-            strokeWidth="4"
-            stroke="currentColor"
-            fill="transparent"
-            r="28"
-            cx="32"
-            cy="32"
-          />
-          <circle
-            className="text-blue-600"
-            strokeWidth="4"
-            strokeDasharray="175"
-            strokeDashoffset={175 - (completionPercentage / 100) * 175}
-            strokeLinecap="round"
-            stroke="currentColor"
-            fill="transparent"
-            r="28"
-            cx="32"
-            cy="32"
-          />
-        </svg>
-        <span className="absolute text-lg font-bold text-blue-600">
+      <div className="relative flex items-center justify-center w-full">
+        <CircularProgress
+          variant="determinate"
+          value={completionPercentage}
+          className="absolute"
+          size={50}
+          thickness={5}
+        />
+        <span className="absolute text-sm font-bold">
           {Math.round(completionPercentage)}%
         </span>
       </div>
@@ -411,25 +288,30 @@ const Process = () => {
   }
 
   return (
-    <div className="max-w-lg  p-5 border rounded-lg shadow-lg  mt-12">
-      <div className="mb-5">{steps[step].content}</div>
-      <div className="flex justify-between">
-        <button
-          onClick={handlePrev}
-          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-          disabled={step === 0}
-        >
-          Previous
-        </button>
-        <button
-          onClick={handleNext}
-          className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50"
-          disabled={step === steps.length - 1}
-        >
-          Next
-        </button>
+    <div className="flex items-center justify-center h-screen bg-custom-image bg-center bg-cover w-full">
+      <div className="max-w-lg mx-auto p-5 border rounded-lg shadow-lg bg-white h-fit w-70">
+        <div className="mb-5">{steps[step].content}</div>
+        <div className="flex justify-between p-5 gap-10">
+          <Button
+            onClick={handlePrev}
+            variant="contained"
+            color="secondary"
+            disabled={step === 0}
+
+          >
+            Previous
+          </Button>
+          <Button
+            onClick={handleNext}
+            variant="contained"
+            color="primary"
+            disabled={step === steps.length - 1}
+          >
+            Next
+          </Button>
+        </div>
+        <div className="mt-4 flex justify-center p-10">{renderProgressBar()}</div>
       </div>
-      <div className="mt-5 flex justify-center">{renderProgressCircle()}</div>
     </div>
   );
 };
