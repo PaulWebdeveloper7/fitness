@@ -4,8 +4,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 const slides = [
   {
-    title: "Welcome to Fitness Hub",
-    imageUrl: "/hero02.svg",
+    title: "Welcome to Fitness hunger",
+    imageUrl:'/carousel1.jpg',
     desc: "The first fitness app designed to improve your fitness, practice mindfulness, and prepare for new adventures with tailored workouts and meditations.",
   },
   {

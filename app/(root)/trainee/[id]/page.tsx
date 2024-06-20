@@ -1,7 +1,10 @@
 
 const page = () => {
   return (
-    <div>page</div>
+    <div>
+      
+      <div><h1>Hello world </h1></div>
+    </div>
   )
 }
 
