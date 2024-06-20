@@ -52,7 +52,7 @@ function Copyright(props: any) {
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function page() {
+export default function Page() {
   const [otp, setOtp] = useState<string>("");
   const [ph, setPh] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -178,7 +178,7 @@ export default function page() {
               <HttpsIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Sign
             </Typography>
             <Box component="form" noValidate onSubmit={sendOtp} sx={{ mt: 1 }}>
               
@@ -190,7 +190,7 @@ export default function page() {
                 onChange={(value: string) => {
                   setPh("+" + value);
                 }}
-                inputStyle={{ width: "100%", padding: "25px" }}
+                inputStyle={{ width: "100%", padding: "20px" }}
 
                 placeholder="Enter phone number"
               />
