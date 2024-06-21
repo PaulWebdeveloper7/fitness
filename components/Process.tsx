@@ -279,16 +279,18 @@ const Process = () => {
           className="absolute"
           size={50}
           thickness={5}
-        />
+        /> 
+        
+        
         <span className="absolute text-sm font-bold">
           {Math.round(completionPercentage)}%
         </span>
-      </div>
+           </div>
     );
   }
 
-  return (
-    <div className="flex items-center justify-center h-screen bg-custom-image bg-center bg-cover w-full">
+  return ( 
+    <div className="flex items-center justify-center h-screen bg-custom-image bg-center  w-full bg-cover">
       <div className="max-w-lg mx-auto p-5 border rounded-lg shadow-lg bg-white h-fit w-70">
         <div className="mb-5">{steps[step].content}</div>
         <div className="flex justify-between p-5 gap-10">
