@@ -6,7 +6,7 @@ import { connectToDB } from '@/utils/database'; // Import database connection fu
 export const POST = async (request: Request) => {
     try {
         // Parse the JSON body from the request
-        const { fullname, phoneno, email, password, role } = await request.json();
+        const { fullname, phoneNumber, email, password, role } = await request.json();
 
         // Connect to the database
         await connectToDB();
@@ -32,10 +32,10 @@ export const POST = async (request: Request) => {
 
         // Create a new user instance
         const newUser = new User({
-            email: email,
             fullName: fullname,
+            email: email,
             password: hashedPassword,
-            phoneNumber: phoneno,
+            phoneNumber: phoneNumber,
             role: role, // Assuming 'userType' maps to 'role' in the model
         });
 
@@ -51,13 +51,8 @@ export const POST = async (request: Request) => {
         });
 
     } catch (error: any) {
-        // Log the error for debugging purposes
-        console.error("Error creating a new user:", error);
-       if(error.name === 'ValidationError'){
-        alert(error)
-        return new Response(JSON.stringify({ error }), { status: 400 });
-    }
-    return new Response(JSON.stringify({ error: 'Failed to create a new user' }), { status: 500 });
-
+        console.log(error)
+        return new Response("Failed to create new user", { status: 500 });
     }
 }
+
