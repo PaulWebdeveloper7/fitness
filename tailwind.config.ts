@@ -9,7 +9,6 @@ const config: Config = {
   theme: {
     extend: {
       backgroundImage: {
-        'custom-image': "url('/front.png')", // Ensure the path is correct
       },
     },
   },
