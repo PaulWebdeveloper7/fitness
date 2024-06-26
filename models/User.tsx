@@ -2,15 +2,14 @@ import {Schema,model,models} from 'mongoose'
 import { isEmail } from 'validator';
 
 const UserSchema = new Schema({
+    fullname:{
+        type:String,
+    },
     email:{
         type:String,
         unique:[true,'Email already exists'],
         required:[true,'Email is required'],
         validate: [ isEmail, 'invalid email' ]
-    },
-    fullname:{
-        type:String,
-        required:[true,'Fullname is required'],
     },
     password: {
         type: String,
@@ -21,7 +20,7 @@ const UserSchema = new Schema({
      unique:[true,'Phone number already exists'],
     },
     confirmPassword:{
-        type:String,       
+        type:String   
     },
     created_at: { type: Date, default: Date.now },
     updated_at: { type: Date, default: Date.now },

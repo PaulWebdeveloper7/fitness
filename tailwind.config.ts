@@ -9,7 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       backgroundImage: {
-      "bg-custom-image":'/hero7.jpg'
+        'custom-image': "url('/front.png')", // Ensure the path is correct
       },
     },
   },

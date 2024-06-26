@@ -79,15 +79,22 @@ export default function Page() {
       setFormValid(false);
     }
   }, [formValues, ph]);
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      phoneno: data.get("phoneno"),
-      password: data.get("password"),
-    });
+  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   console.log({
+  //     phoneno: data.get("phoneno"),
+  //     password: data.get("password"),
+  //   });
+  // };
+  const fetchuser = async () => {
+   const response = await fetch("/api")
+   console.log(response)
   };
 
+  useEffect(() => {
+    fetchuser();
+  }, []);
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormValues((prevValues) => ({
@@ -113,15 +120,16 @@ export default function Page() {
         recaptchaVerifier
       );
       window.confirmation = confirmationResult;
-      setShowOTP(true);
-    } catch (error) {
+    
+    setShowOTP(true);
+  } catch (error) {
       console.error("Error sending OTP:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  const onOTPVerify = async () => {
+  const onOTPVerify= async () => {
     setLoading(true);
     try {
       if (!window.confirmation) {
@@ -226,7 +234,7 @@ export default function Page() {
               <Grid container>
                 <Grid item>
                   <Link
-                    href="/sign-up"
+                    href="/"
                     variant="body2"
                     className="text-black no-underline"
                   >
