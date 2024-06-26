@@ -22,7 +22,7 @@ import {
   signInWithPhoneNumber,
   ConfirmationResult,
 } from "firebase/auth";
-import { auth } from "@/components/FirebaseConfig";
+import { auth } from '@/FirebaseConfig'
 import { useRouter } from "next/navigation";
 
 declare global {

@@ -8,7 +8,7 @@ import {
   signInWithPhoneNumber,
   ConfirmationResult,
 } from "firebase/auth";
-import { auth } from "./FirebaseConfig";
+import { auth } from "../FirebaseConfig";
 import { useRouter } from "next/navigation";
 
 // Extend the Window interface to include the confirmation property.
