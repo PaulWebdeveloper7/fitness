@@ -9,7 +9,7 @@ const UserSchema = new Schema({
         type:String,
         unique:[true,'Email already exists'],
         required:[true,'Email is required'],
-        validate: [ isEmail, 'invalid email' ]
+        validate: [ isEmail, 'Kindly enter valid email' ]
     },
     password: {
         type: String,

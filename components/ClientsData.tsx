@@ -8,24 +8,49 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useRouter } from "next/navigation";
 
-const ClientsData = ({ Headingtext, icon, text , buttontext , buttonaction }: any) => {
+const ClientsData = ({
+  Headingtext,
+  icon,
+  text,
+  buttontext,
+  buttonaction,
+}: any) => {
   const [open, setOpen] = React.useState(false);
-  const Router = useRouter()
+  const [islivesessionpen, setIslivesessionpen] = React.useState(false);
+  const Router = useRouter();
   const handleClickOpen = () => {
-    setOpen(true);
+    if(buttonaction==='addplan'){
+      setOpen(true);
+    }
+    else if(buttonaction==='livesession'){
+      setIslivesessionpen(true);
+    }
+    else if(buttonaction==='formopen'){
+      Router.push('/trainee/${id}/registrationform')
+    }
+    else{
+      console.log(buttonaction)
+    }
   };
   const handleClose = () => {
     setOpen(false);
   };
+  const handlecloseclick = ()=>{
+    setIslivesessionpen(false)
+  }
   return (
     <div className="flex flex-col justify-center items-center">
-       <h1 className=" text-3xl font-extrabold">{Headingtext}</h1>
+      <h1 className=" text-3xl font-extrabold">{Headingtext}</h1>
       <span className=" size-3">{icon}</span>
       <p className="py-5">{text}</p>
-      <button onClick={()=>{buttonaction}} className="bg-black text-white rounded-md p-2">
-       {buttontext}
+      <button
+        onClick={() => {
+          handleClickOpen();
+        }}
+        className="bg-black text-white rounded-md p-2"
+      >
+        {buttontext}
       </button>
-
       {open && (
         <Dialog
           open={open}
@@ -38,10 +63,7 @@ const ClientsData = ({ Headingtext, icon, text , buttontext , buttonaction }: an
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              <input
-                type="text"
-                className="p-2 w-full bg-slate-200 my-4 "
-              />
+              <input type="text" className="p-2 w-full bg-slate-200 my-4 " />
             </DialogContentText>
             <DialogContentText id="alert-dialog-description">
               <form className="px-6 flex gap-5">
@@ -59,6 +81,7 @@ const ClientsData = ({ Headingtext, icon, text , buttontext , buttonaction }: an
                 </label>
               </form>
             </DialogContentText>
+
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
@@ -67,6 +90,31 @@ const ClientsData = ({ Headingtext, icon, text , buttontext , buttonaction }: an
           </DialogActions>
         </Dialog>
       )}
+     {
+      islivesessionpen && (
+        <Dialog
+        open={islivesessionpen}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      > 
+      <DialogContent className=" flex flex-col items-center">
+
+        <DialogTitle className="font-extrabold text-2xl">
+          {"Start a Instant  session"}
+        </DialogTitle>
+        <Button onClick={handleClose} color="primary" className=" bg-sky-700  px-12">
+              Start a meeting
+         </Button>
+      </DialogContent>
+        <DialogActions>
+            <Button onClick={handlecloseclick} color="primary">
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )
+     }
     </div>
   );
 };

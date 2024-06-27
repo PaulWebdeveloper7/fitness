@@ -1,6 +1,6 @@
 "use client"
 import CloseIcon from '@mui/icons-material/Close';
-import { auth } from "@/components/FirebaseConfig";
+import { auth } from "@/FirebaseConfig";
 import { Button, IconButton, Typography } from "@mui/material";
 import { ConfirmationResult, signInWithPhoneNumber } from "firebase/auth";
 import { RecaptchaVerifier } from 'firebase/auth';

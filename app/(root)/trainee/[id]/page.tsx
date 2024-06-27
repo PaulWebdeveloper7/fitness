@@ -23,7 +23,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ClientsData from "@/components/ClientsData";
-import {clientform} from "@/utils/clientform";
 
 function Copyright(props: any) {
   return (
@@ -92,9 +91,7 @@ const Drawer = styled(MuiDrawer, {
     }),
   },
 }));
- const form = clientform()
 // TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
 
 export default function Dashboard() {
   const [open, setOpen] = React.useState(true);
@@ -214,7 +211,8 @@ export default function Dashboard() {
                   text={
                     "Create a new plan and share  it to a client or save it to a template for later use"
                   }
-                  buttontext={"Create plan"}
+                  buttontext={"Add a new plan"}
+                  buttonaction= {"addplan"}
                 />{" "}
               </Paper>
             </Grid>
@@ -235,7 +233,7 @@ export default function Dashboard() {
                     "Onboard your client to Fitness hunger so they can easily track their plans"
                   }
                   buttontext={"Add client"}
-                  buttonaction= {clientform()}
+                  buttonaction= {"formopen"}
                 />
               </Paper>
             </Grid>
@@ -256,6 +254,7 @@ export default function Dashboard() {
                     "Start a quick session with your clients now to meet with them "
                   }
                   buttontext={"Start live session"}
+                  buttonaction= {"livesession"}
                 />
               </Paper>
             </Grid>

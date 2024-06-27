@@ -1,71 +1,24 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
+
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import PersonIcon from '@mui/icons-material/Person';
-import AddIcon from '@mui/icons-material/Add';
-import Typography from '@mui/material/Typography';
-import { blue } from '@mui/material/colors';
 
-const emails = ['username@gmail.com', 'user02@gmail.com'];
+
 
 export interface SimpleDialogProps {
   open: boolean;
   error :any
-  onClose: (value: string) => void;
+  handleClose: (value: string) => void;
 }
 
  export   function SimpleDialog(props: SimpleDialogProps) {
-  const { error, open } = props;
+  const { error, open , handleClose } = props;
 
-  const handleClose = () => {}
-
-//   const handleListItemClick = (value: string) => {
-//     onClose(value);
-//   };
 
   return (
-    <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>Invalid input </DialogTitle>
-       <h2>{error}</h2> 
-       <button type="button" onClick={handleClose}>OK</button> 
+    <Dialog open={open} onClose={handleClose}>
+      <DialogTitle className=' font-bold text-2xl'>Invalid input 
+       </DialogTitle>
+       <h2 className=' text-red-700 font-bold p-5'>{error}</h2> 
     </Dialog>
   );
 }
-
-// export default function SimpleDialogDemo() {
-//   const [open, setOpen] = React.useState(false);
-//   const [selectedValue, setSelectedValue] = React.useState(emails[1]);
-
-//   const handleClickOpen = () => {
-//     setOpen(true);
-//   };
-
-//   const handleClose = (value: string) => {
-//     setOpen(false);
-//     setSelectedValue(value);
-//   };
-
-//   return (
-//     <div>
-//       <Typography variant="subtitle1" component="div">
-//         Selected: {selectedValue}
-//       </Typography>
-//       <br />
-//       <Button variant="outlined" onClick={handleClickOpen}>
-//         Open simple dialog
-//       </Button>
-//       <SimpleDialog
-//         open={open}
-//         onClose={handleClose}
-//         err
-//       />
-//     </div>
-//   );
-// }

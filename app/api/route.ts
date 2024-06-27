@@ -59,7 +59,7 @@ export const POST = async (request: Request) => {
     if (error.name === "ValidationError") {
       return new Response(
         JSON.stringify({
-          message: `Failed to create new user due to validation error: ${error.message}`,
+          message: ` ${error.message}`,
           name:`${error.name}`
         }),      
           { status: 403 }
@@ -72,3 +72,24 @@ export const POST = async (request: Request) => {
     }
   }
 };
+export const GET = async ({params}:any ,request:Request) => {
+  try {
+    await connectToDB();
+    const {phoneNumber } = await request.json()
+    const user = await User.find({phoneNumber: phoneNumber});
+    if(!user){
+      return new Response(JSON.stringify({message:"User not found"}),{status:404})
+      // return  Response.status(404).json({
+      // message:"User not found"
+      // })
+    }
+    console.log(user)
+    return new Response(JSON.stringify(user),{status:200})
+   
+   
+  } catch (error:any) {
+    return new Response(JSON.stringify({message:`${error}`}),{status:500})
+  
+
+  }
+}

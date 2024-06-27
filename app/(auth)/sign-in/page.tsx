@@ -10,6 +10,7 @@ import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
+import { Copyright } from "@/utils/authenticationutilityfs";
 import HttpsIcon from "@mui/icons-material/Https";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -24,6 +25,7 @@ import {
 } from "firebase/auth";
 import { auth } from '@/FirebaseConfig'
 import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 declare global {
   interface Window {
@@ -31,23 +33,7 @@ declare global {
   }
 }
 
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://fitnesshunder.vercel.app/">
-        fitnesshunger.vercel.app
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -58,7 +44,9 @@ export default function Page() {
   const [loading, setLoading] = useState<boolean>(false);
   const [showOTP, setShowOTP] = useState<boolean>(false);
   const [user, setUser] = useState<any>(null);
-
+  const searchParams = useSearchParams();
+  const PhoneNumber = searchParams.get("ph");
+  console.log("the phone number is: ",PhoneNumber)
   // Form state
   const [formValues, setFormValues] = useState({
  
@@ -79,22 +67,17 @@ export default function Page() {
       setFormValid(false);
     }
   }, [formValues, ph]);
-  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     phoneno: data.get("phoneno"),
-  //     password: data.get("password"),
-  //   });
-  // };
   const fetchuser = async () => {
-   const response = await fetch("/api")
-   console.log(response)
+    try {
+      const response = await fetch("/api")
+      console.log(response)
+      setShowOTP(true);
+    } catch (error) {
+       console.log(error)
+    }
   };
 
-  useEffect(() => {
-    fetchuser();
-  }, []);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormValues((prevValues) => ({
@@ -120,15 +103,18 @@ export default function Page() {
         recaptchaVerifier
       );
       window.confirmation = confirmationResult;
-    
-    setShowOTP(true);
+      await fetchuser();
   } catch (error) {
       console.error("Error sending OTP:", error);
     } finally {
       setLoading(false);
     }
   };
-
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+    },
+  });
   const onOTPVerify= async () => {
     setLoading(true);
     try {
@@ -150,7 +136,7 @@ export default function Page() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={darkTheme}>
     
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
@@ -188,18 +174,15 @@ export default function Page() {
             <Typography component="h1" variant="h5">
               Sign
             </Typography>
-            <Box component="form" noValidate onSubmit={sendOtp} sx={{ mt: 1 }}>
-              
-              
-           
+            <Box component="form" noValidate onSubmit={sendOtp} sx={{ mt: 1 }}> 
               <PhoneInput
                 country={"in"}
                 value={ph}
                 onChange={(value: string) => {
                   setPh("+" + value);
                 }}
-                inputStyle={{ width: "100%", padding: "20px" }}
-
+                inputStyle={{ width: "100%",
+                  padding:"20px" ,backgroundColor:'blanchedalmond'}}
                 placeholder="Enter phone number"
               />
               <TextField
@@ -225,7 +208,6 @@ export default function Page() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                className="bg-black"
               >
             <span>{loading ? "Sending..." : "Sign up"}</span>
             </Button>

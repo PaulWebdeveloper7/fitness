@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Fitness Web app",
   description: "Fitness Web app",
-  icons:'https://www.creativefabrica.com/wp-content/uploads/2022/12/01/Sport-Fitness-Gym-Logo-Template-Graphics-49716794-1.jpg'
+  icons:'/logo.png'
 };
 
 export default function RootLayout({

@@ -24,6 +24,7 @@ import {
 } from "firebase/auth";
 import { auth } from "@/FirebaseConfig";
 import { useRouter } from "next/navigation";
+import { SimpleDialog } from "@/components/dialogbox";
 
 declare global {
   interface Window {
@@ -58,6 +59,8 @@ export default function SignInSide() {
   const [loading, setLoading] = useState<boolean>(false);
   const [showOTP, setShowOTP] = useState<boolean>(false);
   const [user, setUser] = useState<any>(null);
+  const [Validationdialog, setValidationdialog] = useState(false)
+  const [Errror, setError] = useState("")
   // Form state
   const [formValues, setFormValues] = useState({
     fullname: "",
@@ -124,15 +127,19 @@ export default function SignInSide() {
           role: formValues.role,
         }),
       });
+
       if (!response.ok) {
         const errorData = await response.json();
+        const errorMessage = errorData.message
         if(errorData.name=='ValidationError')
           {
-            console.log('helllo error')
-            alert(errorData.message);
-            setShowOTP(false);
+            setValidationdialog(true)
+            setError(`${errorMessage}`)
           }
-        // Or display in a more user-friendly way
+          else{
+            setValidationdialog(true)
+            setError('Something went wrong . Please try again later')
+          }
       }
       if (response.ok) {
         setShowOTP(true);
@@ -196,7 +203,12 @@ export default function SignInSide() {
             backgroundPosition: "center",
           }}
         />
-
+     {
+      Validationdialog &&(
+        <SimpleDialog open={true} error={Errror} 
+        handleClose={()=>{setValidationdialog(false)}}  />
+      ) 
+     }
         {!showOTP ? (
           <Grid
             item
